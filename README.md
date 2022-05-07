@@ -1,4 +1,4 @@
-<h2 align="center">**Cook blog**</h2>
+<h2 align="center">Cook blog</h2>
 
 ### Описание проекта:
 ##### Блог шеф-повара с рецептами. 
