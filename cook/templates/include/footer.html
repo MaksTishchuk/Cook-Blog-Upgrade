@@ -1,0 +1,68 @@
+{% load static social_tags %}
+{% load cache %}
+
+{% cache 5000 footer %}
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="footer__instagram">
+            <div class="footer__instagram__avatar">
+                <div class="footer__instagram__avatar--pic">
+                    <img src="{% static 'img/footer/instagram-avatar.jpg' %}" alt="">
+                </div>
+                <div class="footer__instagram__avatar--text">
+                    <h5>@MaksBlog</h5>
+                    <span>Made With Love</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-4 col-6">
+                    <div class="footer__instagram__item set-bg"
+                         data-setbg="{% static 'img/footer/ip-1.jpg' %}"></div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-4 col-6">
+                    <div class="footer__instagram__item set-bg"
+                         data-setbg="{% static 'img/footer/ip-2.jpg' %}"></div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-4 col-6">
+                    <div class="footer__instagram__item set-bg"
+                         data-setbg="{% static 'img/footer/ip-3.jpg' %}"></div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-4 col-6">
+                    <div class="footer__instagram__item set-bg"
+                         data-setbg="{% static 'img/footer/ip-4.jpg' %}"></div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-4 col-6">
+                    <div class="footer__instagram__item set-bg"
+                         data-setbg="{% static 'img/footer/ip-5.jpg' %}"></div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-4 col-6">
+                    <div class="footer__instagram__item set-bg"
+                         data-setbg="{% static 'img/footer/ip-6.jpg' %}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="footer__text">
+                    <div class="footer__logo">
+                        <a href="#"><img src="{% static 'img/logo-2.png' %}" alt=""></a>
+                    </div>
+                    <p>We’re starting to realise our dream of creating a remarkable food business
+                        that’s a force for good in society, too. In 2013 we became one of the UK’s
+                        first certified B Corps, part of a global movement committed to a better
+                        way of doing business for people and the planet.</p>
+                    <div class="footer__social">
+                        {% get_social_links as social_links %}
+                        {% for item in social_links %}
+                        <a href="{{ item.link }}"><img src="{{ item.icon.url }}"></a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endcache %}
+<!-- Footer Section End -->

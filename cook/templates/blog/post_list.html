@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+
+{% block title %}
+  <title>{{ title }}</title>
+{% endblock title %}
+
+{% block content %}
+<section class="categories categories-grid spad">
+    <div class="categories__post">
+        <div class="container">
+            <div class="categories__grid__post">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8">
+                        {% if category %}
+                            <div class="breadcrumb__text">
+                                <h2>Categories: <span>{{ category.name }}</span></h2>
+                                <div class="breadcrumb__option">
+                                    <a href="/">Home</a>
+                                    <span>{{ category.name }}</span>
+                                </div>
+                            </div>
+                        {% endif %}
+
+
+                        <div class="row">
+                            {% if post_list %}
+                                {% if form %}
+                                <form method="GET" class="form-select form-select-lg mb-3">
+                                    {{ form|bootstrap }}
+                                    <button type="submit" class="btn btn-primary">Применить</button>
+                                </form>
+                                {% endif %}
+
+                                {% for post in post_list %}
+                                <div class="categories__post__item">
+                                    <div class="categories__post__item__pic small__item set-bg"
+                                         data-setbg="{{ post.image.url }}">
+                                        <div class="post__meta">
+                                            <h4>{{ post.create_at|date:"d" }}</h4>
+                                            <span>{{ post.create_at|date:"M" }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="categories__post__item__text">
+                                        <span class="post__label">{{ post.category }}</span>
+                                        <h3><a href="{{ post.get_absolute_url }}">
+                                            {{ post.title }}</a></h3>
+                                        <ul class="post__widget">
+                                            <li>by <span>{{ post.author }}</span></li>
+                                            <li>{{ post.comment.count }} Comments</li>
+                                            <li>{{ post.views }} Views</li>
+                                            <li>{{ post.get_likes_count }} likes</li>
+                                            <li>{{ post.get_dislikes_count }} dislikes</li>
+                                        </ul>
+                                        <p>{{ post.text|truncatewords:20|safe }}</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                            {% else %}
+                                <h3>No posts found for your query..</h3>
+                            {% endif %}
+                        </div>
+                        {% include 'include/pagination.html' %}<br>
+                    </div>
+
+                    {% include 'include/sidebar.html' %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+

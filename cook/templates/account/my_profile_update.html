@@ -1,0 +1,32 @@
+{% extends 'account/base_account.html' %}
+{% load social_tags %}
+
+
+{% block title %}
+  <title>UPDATE PROFILE</title>
+{% endblock %}
+
+
+{% block extra_content %}
+
+<h2>Изменить профиль</h2>
+
+<div class="form-wrapper">
+   <form method="post" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% for field in form %}
+           <div class="fieldWrapper">
+        {{ field.errors }}
+        {{ field.label_tag }} {{ field }}
+        {% if field.help_text %}
+             <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+           </div>
+        {% endfor %}
+      <div class="button-wrapper submit">
+         <input type="submit" value="Изменить" />
+      </div>
+   </form>
+</div>
+
+{% endblock %}

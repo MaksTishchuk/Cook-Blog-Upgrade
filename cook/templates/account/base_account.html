@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load social_tags %}
+
+
+{% block title %}
+{% endblock %}
+
+
+{% block content %}
+<section class="categories categories-grid spad">
+    <div class="categories__post">
+        <div class="container">
+            <div class="col-lg-12 col-md-12">
+                <div class="categories__post__item">
+                    <div class="categories__post__item__text">
+                        {% if user.is_authenticated %}
+                        <a class="button-acc" href="{% url 'my_profile' %}">
+                            Мой профиль
+                        </a>
+                        <a class="button-acc" href="{% url 'my_profile_update' %}">
+                            Изменить профиль
+                        </a>
+                        <a class="button-acc" href="{% url 'account_email' %}">
+                            Управление Email-адресами
+                        </a>
+                        <a class="button-acc" href="{% url 'account_change_password_my' %}">
+                            Изменить пароль
+                        </a>
+                        <a class="button-acc" href="{% url 'account_logout' %}">
+                            Выйти
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        {% block extra_content %}
+
+        {% endblock %}
+
+        </div>
+    </div>
+</section>
+{% endblock %}

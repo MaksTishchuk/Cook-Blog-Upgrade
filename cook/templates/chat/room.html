@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  <title>ChatRoom</title>
+{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+<link rel="stylesheet" href="{% static 'css/chat.css' %}" type="text/css">
+{% endblock %}
+
+{% block content %}
+<section class="categories categories-grid spad">
+    <div class="categories__post">
+        <div class="container">
+            <div class="categories__grid__post">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8">
+
+
+                        <div class="column is-12">
+                            <div class="box">
+                                <div id="chat-messages"
+                                     style="max-height: 400px; word-wrap:break-word; overflow-y: scroll;">
+
+                                    {% for m in messages %}
+                                        <div class="chat__item__pic">
+                                            {% if m.profile_photo %}
+                                                <img src="{{ m.profile_photo.url }}" alt="">
+                                            {% else %}
+                                                <img src="{% static 'img/face.png' %}" alt="">
+                                            {% endif %}
+                                            <b>{{ m.username }}</b> {{ m.date_added|date:"H:i:s d.m.y" }} <p>{{ m.content }}</p>
+                                        </div>
+
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input" type="text" placeholder="Message" id="chat-message-input">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
+                                    <a class="button is-info" id="chat-message-submit">Submit</a>
+                                </div>
+                            </div>
+
+                            <small class="has-text-grey-light">Your username: {{ username }}</small>
+                        </div>
+                    </div>
+                    {% include 'include/sidebar.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{ room_name|json_script:"json-roomname" }}
+{{ username|json_script:"json-username" }}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function scrollToBottom() {
+        let objDiv = document.getElementById("chat-messages");
+        objDiv.scrollTop = objDiv.scrollHeight;
+    }
+
+    scrollToBottom();
+
+    const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
+    const userName = JSON.parse(document.getElementById('json-username').textContent);
+
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/'
+    );
+
+    chatSocket.onmessage = function(e) {
+        console.log('onmessage');
+
+        const data = JSON.parse(e.data);
+        console.log(data);
+
+        if (data.message) {
+            document.querySelector('#chat-messages').innerHTML += ('<div class="chat__item__pic">' + '<img src="{% static 'img/face.png' %}" alt="">' + '&nbsp;' + '<b>' + data.username + '</b>' + '&nbsp;' + data.time_message + '<p>' + data.message + '</p>' + '</div>');
+        } else {
+            alert('The message is empty!');
+        }
+
+        scrollToBottom();
+    };
+
+    chatSocket.onclose = function(e) {
+        console.log('The socket close unexpectadly');
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function(e) {
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+
+        chatSocket.send(JSON.stringify({
+            'message': message,
+            'username': userName,
+            'room': roomName
+        }));
+
+        messageInputDom.value = '';
+    };
+</script>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% load menu_tags %}
+
+<li class="dropdown">
+    <a href="#">Exchange Rate</a>
+    <ul class="dropdown__menu">
+        {% for list in exchange_rates %}
+
+            <li>
+                <a href="#">{{ list.ccy }}/{{ list.base_ccy }} <br> {{ list.buy }}/{{ list.sale }}</a>
+            </li>
+
+        {% endfor %}
+    </ul>
+</li>
